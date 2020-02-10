@@ -6,6 +6,8 @@
 
 # Import Libraries
 import sys
+import re
+import pdb
 version = (3, 0)
 cur_version = sys.version_info
 if cur_version >= version:  # If the Current Version of Python is 3.0 or above
@@ -603,6 +605,17 @@ class googleimagesdownload:
                 extensions = [".jpg", ".jpeg", ".gif", ".png", ".bmp", ".svg", ".webp", ".ico"]
                 # keep everything after the last '/'
                 image_name = str(image_url[(image_url.rfind('/')) + 1:])
+
+                skip_flag = False
+                for ex_file in os.listdir(main_directory + "/" + dir_name + "/"):
+                    if re.search('[0-9]*[\.]*{}'.format(image_name), ex_file):
+                        skip_flag = True
+                        break
+
+                if skip_flag:
+                    print('Skip <<{}>>, already exists!!!'.format(image_name))
+                    pass
+
                 if format:
                     if not image_format or image_format != format:
                         download_status = 'fail'
@@ -632,6 +645,8 @@ class googleimagesdownload:
                     path = main_directory + "/" + dir_name + "/" + prefix + image_name
                 else:
                     path = main_directory + "/" + dir_name + "/" + prefix + str(count) + "." + image_name
+
+
 
                 try:
                     output_file = open(path, 'wb')
@@ -932,7 +947,7 @@ class googleimagesdownload:
                     else:
                         dir_name = search_term + ('-' + arguments['color'] if arguments['color'] else '')   #sub-directory
                     if dir_name.lower().endswith('pokemon'):
-                        dir_name = dir_name.replace('pokemon', '').strip()
+                        dir_name = dir_name.replace('pokemon', '').replace(',', '').strip()
                     if not arguments["no_download"]:
                         self.create_directories(main_directory,dir_name,arguments['thumbnail'],arguments['thumbnail_only'])     #create directories in OS
 
