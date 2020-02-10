@@ -1,4 +1,4 @@
-# classifier
+# classifier :sparkles:
 ## Download data
 - `$ python3 download_manager.py`
 
