@@ -11,7 +11,7 @@ def generate_alias():
     alias_poke_names = codecs.open(ALIAS_LIST, 'w', encoding='utf8')
 
     for name in poke_names:
-        name = name.strip()
+        name = name.strip().replace('\'', '').replace('\.', '')
         alias = list()
         alias.append(name)
         for suffix in SUFFIXES:
